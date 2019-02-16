@@ -26,7 +26,7 @@ var cards = [
 ];
 
 $(document).ready(function(){
-  var memoryGame = new MemoryGame(cards);
+  var memoryGame = new MemoryGame(cards); // DGG: Puede ir fuera del ready y sigue siendo global
   
   memoryGame.shuffleCards(); // DGG: Partidas aleatorias
   
@@ -61,19 +61,24 @@ $(document).ready(function(){
       $('#pairs_guessed').text(memoryGame.pairsGuessed);
       
       nameArray = [];
+      objArray = []
     }
     else if ( nameArray.length > 1 && nameArray[nameArray.length - 1] !== nameArray[nameArray.length - 2] ) {
       memoryGame.checkIfPair( nameArray[nameArray.length - 1], nameArray[nameArray.length - 2] );
       $('#pairs_clicked').text(memoryGame.pairsClicked);
       $('#pairs_guessed').text(memoryGame.pairsGuessed);
-      
-      objArray[objArray.length - 1].toggleClass('back front', 1500);
-      objArray[objArray.length - 1].siblings().toggleClass('front back', 1500);
-      
-      objArray[objArray.length - 2].toggleClass('back front', 1500);
-      objArray[objArray.length - 2].siblings().toggleClass('front back', 1500);
+      console.log(objArray)
+      setTimeout(function(){
+        objArray[objArray.length - 1].toggleClass('front back');
+        objArray[objArray.length - 1].siblings().toggleClass('front back');
+        
+        objArray[objArray.length - 2].toggleClass('front back');
+        objArray[objArray.length - 2].siblings().toggleClass('front back');
 
       nameArray = [];
+      objArray = []
+      }, 1000)
+      
     }
     endGame = memoryGame.isFinished(); // DGG: Si es true se desactiva el click
     if (endGame) {
